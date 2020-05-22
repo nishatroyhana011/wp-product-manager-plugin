@@ -1,13 +1,12 @@
 <?php
 global $wpdb;
+$table = $wpdb->prefix . "Product_table";
 $all_products = $wpdb->get_results(
-	$wpdb->prepare(
-		"SELECT * FROM" . table_name() . "ORDER by id DESC",""
-	)
+	
+		"SELECT * FROM $table"
+	
 );
 ?>
-
-
 <div class="container">
 	<div class="row"> 
 		<div class="panel panel-primary">
@@ -21,6 +20,10 @@ $all_products = $wpdb->get_results(
 						<th>Category</th>
 						<th>Price</th>
 						<th>About</th>
+						<td>
+						<a class="btn btn-info" href="admin.php?page=edit&edit=<?php echo $value['ID']; ?>">EDIT</a>
+						<a class="btn btn-danger btnproductdelete" href="javascript:void(0)" data-id="<?php echo $value['ID']; ?>">DELETE</a>
+						</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -35,10 +38,7 @@ $all_products = $wpdb->get_results(
 						<td><?php echo $value['Category']; ?></td>
 						<td><?php echo $value['Price']; ?></td>
 						<td><?php echo $value['About']; ?></td>
-						<td>
-							<a class="btn btn-info" href="admin.php?page=edit&edit=<?php echo $value['ID']; ?>">EDIT</a>
-							<a class="btn btn-danger btnproductdelete" href="javascript:void(0)" data-id="<?php echo $value['ID']; ?>">DELETE</a>
-						</td>
+						 
 					</tr>
 				<?php 
 						}
