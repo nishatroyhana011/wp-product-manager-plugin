@@ -14,23 +14,15 @@
 	define("PM_PLUGINS_URL",plugins_url());
 	//plugin name should be attached here
 
-function table_name(){
-	global $wpdb;
-	return $wpdb->prefix . "poca_table";
-}
- 
  //enqueue stylesheets and scripts
  function product_manager_include_assets(){
-	 
-	 
+ 
 	 //css files
 	wp_enqueue_style("pm_style",PM_PLUGINS_URL."/Product-manager/Assets/css/pm_style.css",'');
 	wp_enqueue_style("bootstrap",PM_PLUGINS_URL."/Product-manager/Assets/css/bootstrap.min.css",'');
 	wp_enqueue_style("datatable",PM_PLUGINS_URL."/Product-manager/Assets/css/jquery.dataTables.min.css",'');
 	wp_enqueue_style("notifybar",PM_PLUGINS_URL."/Product-manager/Assets/css/jquery.notifyBar.css",'');
-	
-	
-	
+
 	 //js file
 	//wp_enqueue_script('jquery');
 	wp_enqueue_script('jquery-3.3.1',PM_PLUGINS_URL.'/Product-manager/Assets/js/jquery-3.3.1.js','',true);
@@ -97,18 +89,19 @@ function table_name(){
  function pm_custom_table(){
 	 
 	 global $wpdb;
+	 $table = $wpdb->prefix . "Product_table";
 	 require_once(ABSPATH.'wp-admin/includes/upgrade.php');
 	 
-	 $sql= "CREATE TABLE " . table_name() . " (
-		 `ID` int(11) NOT NULL,
-		 `Name` varchar(30) NOT NULL,
-		 `Category` varchar(15) NOT NULL,
-		 `Price` int(11) NOT NULL,
-		 `About` text NOT NULL
+	 $sql= "CREATE TABLE $table(
+		 id int(11) NOT NULL AUTO_INCREMENT,
+		 Name varchar(30) NOT NULL,
+		 Category varchar(15) NOT NULL,
+		 Price int(11) NOT NULL,
+		 About text NOT NULL,
+		 PRIMARY KEY  (id)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1";
-
 		
-	dbDelta	($sql);
+	dbDelta($sql);
  }
  register_activation_hook(__FILE__,'pm_custom_table');
 
@@ -116,9 +109,9 @@ function table_name(){
  function pm_custom_deactive_table(){
 	
 	global $wpdb;
-	$wpdb->query("DROP TABLE IF EXISTS" . table_name());
+	$wpdb->query("DROP TABLE IF EXISTS $table");
 } 
-register_deactivation_hook(__FILE__,'pm_custom_deactive_table');
+register_deactivation_hook(__FILE__,' ');
 
 add_action("wp_ajax_productmanagerlibrary","product_manager_save_data");
 
@@ -128,6 +121,7 @@ function product_manager_save_data(){
 	if($_REQUEST['param']=="save_data"){
 		
 			$wpdb-> insert(table_name(),array(
+			
 			"Name"=> $_REQUEST['name'],
 			"Category"=> $_REQUEST['category'],
 			"Price"=> $_REQUEST['price'],
