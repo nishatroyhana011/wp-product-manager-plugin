@@ -7,7 +7,7 @@
 		global $wpdb;
 		$product_detail = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT * from" . table_name()."WHERE id=%d",$product_id;
+				"SELECT * from $table WHERE id=%d",$product_id
 			)
 		);
 	?>
@@ -20,7 +20,6 @@
 			<div class="panel-heading"><h4>Update Product</h4></div>
 			<div class="panel-body">
 				<form class="form-horizontal" action="javascript:void(0)" id="updateForm">
-				<input type="hidden" name="product_id" value="<?php echo isset($_GET['edit'] ? intval($_GET['edit']) : 0)?>" />
 				 <div class="form-group">
 					<label class="control-label col-sm-2" for="name">Name:</label>
 					<div class="col-sm-10">
@@ -38,7 +37,7 @@
 				  <div class="form-group">
 					<label class="control-label col-sm-2" for="price">Price:</label>
 					<div class="col-sm-10">
-					  <input type="text" class="form-control" required id="price" value="<?php echo $product_detail['price']?>"">
+					  <input type="text" class="form-control" required id="price" value="<?php echo $product_detail['price']?>">
 					</div>
 				  </div>
 				  				  
